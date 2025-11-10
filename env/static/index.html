@@ -29,8 +29,19 @@
                     longitude: parseFloat(document.getElementById('longitude').value)
                 };
 
+                const output = document.getElementById('output');
                 output.style.display = 'block';
                 output.textContent = JSON.stringify(data, null, 2);
+
+                //send the same data to the pyhton server
+                fetch ("http://127.0.0.1:8080/api/gps", {
+                    method : "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(reply => console.log("Server repiled:", reply))
+                .catch(err => console.error("Error:", err));
             };
         </script>
 

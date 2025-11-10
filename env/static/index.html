@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>GPS Data Uploader</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <h1>GPS Data Form</h1>
+        <label for="device_id">Device ID:</label>
+        <input id="device_id" type="text" placeholder="eg tracker 01">
+
+        <label for="latitude">Latitude:</label>
+        <input id="latitude" type="number" step="any" placeholder="eg 27.3256">
+
+        <label for="longitude">Longitude</label>
+        <input id="longitude" type="number" step="any" placeholder="eg 85.2655">
+
+        <button id="send">Preview Data</button>
+        <pre id="output"></pre>
+
+        <script>
+            const button = document.getElementById('send');
+            button.onclick = () => {
+                const data = {
+                    device_id : document.getElementById('device_id').value,
+                    latitude: parseFloat(document.getElementById('latitude').value),
+                    longitude: parseFloat(document.getElementById('longitude').value)
+                };
+
+                output.style.display = 'block';
+                output.textContent = JSON.stringify(data, null, 2);
+            };
+        </script>
+
+    </body>
+</html>

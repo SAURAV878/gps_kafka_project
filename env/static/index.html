@@ -22,7 +22,7 @@
 
         <script>
 
-            let intervalID;
+            let intervalID; //variable that will hold the timer id
 
             const button = document.getElementById('send');
             button.onclick = () => {
@@ -33,8 +33,9 @@
 
                 if (intervalID) clearInterval(intervalID);
 
-                const step = 0.0003; 
-                const delay = 0.0005;
+                const step = 0.0003;  // controls how far the rider moves eacch upadte
+
+                const delay = 2000; // tells setinterval how often to run that blaovk
 
               intervalID = setInterval(() => {
                     lat += (Math.random() - 0.5) * step;

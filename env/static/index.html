@@ -21,27 +21,48 @@
         <pre id="output"></pre>
 
         <script>
+
+            let intervalID;
+
             const button = document.getElementById('send');
             button.onclick = () => {
-                const data = {
-                    device_id : document.getElementById('device_id').value,
-                    latitude: parseFloat(document.getElementById('latitude').value),
-                    longitude: parseFloat(document.getElementById('longitude').value)
-                };
+               
+                const id = document.getElementById('device_id').value;
+                let lat = parseFloat(document.getElementById('latitude').value);
+                let lon = parseFloat(document.getElementById('longitude').value);
 
-                const output = document.getElementById('output');
-                output.style.display = 'block';
-                output.textContent = JSON.stringify(data, null, 2);
+                if (intervalID) clearInterval(intervalID);
+
+                const step = 0.0003; 
+                const delay = 0.0005;
+
+              intervalID = setInterval(() => {
+                    lat += (Math.random() - 0.5) * step;
+                    lon += (Math.random() - 0.5) * step;
+
+                    const data = {
+                        device_id : id,
+                        latitude: parseFloat(lat.toFixed(6)),
+                        longitude: parseFloat(lon.toFixed(6)),
+                        timestamp: Date.now()
+                    };
+
+                    const output = document.getElementById('output');
+                    output.style.display = 'block';
+                    output.textContent = JSON.stringify(data, null, 2);
 
                 //send the same data to the pyhton server
-                fetch ("http://127.0.0.1:8080/api/gps", {
-                    method : "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(data)
-                })
-                .then(res => res.json())
-                .then(reply => console.log("Server repiled:", reply))
-                .catch(err => console.error("Error:", err));
+                    fetch ("http://127.0.0.1:8080/api/gps", {
+                        method : "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(reply => console.log("Server repiled:", reply))
+                    .catch(err => console.error("Error:", err));
+
+                }, delay);
+                
             };
         </script>
 
